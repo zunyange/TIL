@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../../../config";
 
-const PagenationPlain = ({ explain, setExplain }) => {
+const PagenationPlain = () => {
   const [currentExplainPage, setCurrentExplainPage] = useState(1);
 
   const startPage = (Math.ceil(currentExplainPage / 5) - 1) * 5 + 1;
