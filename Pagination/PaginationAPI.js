@@ -1,57 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { API } from "../../../../config";
 
-const Pagination = () => {
-  const [explain, setExplain] = useState([]);
-  const [currentExplainPage, setCurrentExplainPage] = useState(1);
+// 1-1. API 로 데이터 받을 때
 
-  const startPage = (Math.ceil(currentExplainPage / 5) - 1) * 5 + 1;
+const Pagination = () => {
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const startPage = (Math.ceil(currentPage / 5) - 1) * 5 + 1;
   const endPage =
-    startPage + 4 > explain.total_pages ? explain.total_pages : startPage + 4;
+    startPage + 4 > data.total_pages ? data.total_pages : startPage + 4;
   const seperatePage = new Array(endPage - startPage + 1).fill(startPage);
 
   const changepage = (index) => {
-    setCurrentExplainPage(index + 1);
+    setCurrentPage(index + 1);
   };
 
   const prevPage = () => {
-    if (currentExplainPage > 1) {
-      setCurrentExplainPage(currentExplainPage - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
   const nextPage = () => {
-    if (currentExplainPage < explain.total_pages)
-      setCurrentExplainPage(currentExplainPage + 1);
+    if (currentPage < data.total_pages) setCurrentPage(currentPage + 1);
   };
 
   const firstPage = () => {
-    setCurrentExplainPage(1);
+    setCurrentPage(1);
   };
 
   const lastPage = () => {
-    setCurrentExplainPage(explain.total_pages);
+    setCurrentPage(data.total_pages);
   };
 
   useEffect(() => {
     fetch("https://dev.saedaron.com/api/franchise/schedule.php")
       .then((res) => res.json())
       .then((data) => {
-        setExplain(data);
+        setData(data);
       });
   }, []);
 
   const fetchToData = () => {
-    fetch(`${API.plan}page=${currentExplainPage}`)
+    fetch(`${API.plan}page=${currentPage}`)
       .then((res) => res.json())
       .then((data) => {
-        setExplain(data);
+        setData(data);
       });
   };
 
   useEffect(() => {
     fetchToData();
-  }, [currentExplainPage]);
+  }, [currentPage]);
 
   return (
     <PageWrap>
@@ -68,10 +69,10 @@ const Pagination = () => {
         />
         {seperatePage.map((pageBaseNumber, index) => {
           const pageNumber = pageBaseNumber + index;
-          if (pageNumber > explain.total_pages) return null;
+          if (pageNumber > data.total_pages) return null;
           return (
             <CurrentPage
-              style={currentExplainPage === pageNumber ? redStyle : null}
+              style={currentPage === pageNumber ? redStyle : null}
               key={pageNumber}
               onClick={() => changepage(pageNumber - 1)}
             >

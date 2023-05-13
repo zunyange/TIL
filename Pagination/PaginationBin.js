@@ -1,19 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
+// 1-2. API 로 데이터 받을 때
+// 1-1 과 차이를 알아보자.
+
 const PaginationFile = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    fetch(
-      "https://dev.saedaron.com/api/franchise/list.php?keyword=&page=1&cate=41"
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setLoading(false);
-      });
-  }, []);
+  const [loading, setLoading] = useState(true);
 
   const startPage = (Math.ceil(currentPage / 5) - 1) * 5 + 1;
   const endPage =
@@ -41,6 +35,17 @@ const PaginationFile = () => {
   const lastPage = () => {
     setCurrentPage(data.total_pages);
   };
+
+  useEffect(() => {
+    fetch(
+      "https://dev.saedaron.com/api/franchise/list.php?keyword=&page=1&cate=41"
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <PageWrap>
       <Pagination>
