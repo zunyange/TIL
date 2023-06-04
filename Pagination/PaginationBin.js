@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 // 1-2. API 로 데이터 받을 때
-// 1-1 과 차이를 알아보자.
+// 1-1. 과의 차이를 알아보자.
 
 const PaginationFile = () => {
   const [data, setData] = useState([]);
